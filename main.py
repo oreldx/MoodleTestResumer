@@ -11,7 +11,8 @@ def startBrowser():
 
 def loginMoodle(driver, page):
     driver.get(page)
-    element = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/section/div/div[2]/div/div/div/div[1]/div[1]/a")
+    element = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/section/div/"
+                                            "div[2]/div/div/div/div[1]/div[1]/a")
     element.click()
     element = driver.find_element(By.XPATH, "//input[@name='username']")
     element.send_keys(LOGIN)
@@ -22,7 +23,8 @@ def loginMoodle(driver, page):
 
 
 def getAnswers(driver, quantityQuestions, outputFile):
-    driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div[2]/div/div/section/div[1]/table/tbody/tr/td[4]/a").click()
+    driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div[2]/div/"
+                                  "div/section/div[1]/table/tbody/tr/td[4]/a").click()
     print('Test loaded')
     with codecs.open(outputFile, "w", "utf-8-sig") as f:
         for i in range(quantityQuestions):
@@ -44,10 +46,10 @@ def getAnswers(driver, quantityQuestions, outputFile):
 def scrapTests(tests):
     browser = startBrowser()
     print('Selenium Instance has been started')
-
+    loginMoodle(browser, tests[0]['url'])
     for i, test in enumerate(tests):
         print(f"========== Scrapping Moodle Test {i} started ==========")
-        loginMoodle(browser, test['url'])
+        browser.get(test['url'])
         getAnswers(browser, test['questions'], f"test_{i}.txt")
         print(f"========== Scrapping Moodle Test {i} done ==========")
 
@@ -55,7 +57,8 @@ def scrapTests(tests):
 if __name__ == '__main__':
 
     data = [
-        {'url': "https://moodle.utt.fr/mod/quiz/view.php?id=67185", 'questions': 90}
+        {'url': "https://moodle.utt.fr/mod/quiz/view.php?id=67186", 'questions': 90},
+        {'url': "https://moodle.utt.fr/mod/quiz/view.php?id=67187", 'questions': 90}
     ]
 
     scrapTests(data)
